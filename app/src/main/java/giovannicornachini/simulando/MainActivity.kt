@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     val simulandoAPI = SimulandoAPIHelper.api
     var startBtn:Button? = null
     var questions: ArrayList<Question> = ArrayList<Question>()
-    var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         startBtn = findViewById(R.id.startBtn) as Button
         startBtn!!.setOnClickListener(View.OnClickListener { view ->
-            initQuestion()
+            initQuestions()
         })
 
         getAllQuestions()
@@ -42,15 +41,12 @@ class MainActivity : AppCompatActivity() {
         startBtn!!.visibility = android.transition.Visibility.MODE_IN
     }
 
-    fun initQuestion(){
+    fun initQuestions(){
         """ Init QuestionActivity with questions. """
         Log.d("Init Question Activity", questions.toString())
 
-        val extra = Bundle()
-        extra.putSerializable(QUESTION_LIST, questions)
-
         val intent = Intent(this, QuestionActivity::class.java)
-        intent.putExtra("extra", extra)
+        intent.putExtra(QUESTION_LIST, questions)
 
         startActivity(intent)
     }
