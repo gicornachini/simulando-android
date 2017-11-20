@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,9 @@ import giovannicornachini.vocesabia.Models.Question
 import android.widget.AdapterView.OnItemClickListener
 import giovannicornachini.vocesabia.Models.QuestionAlternative
 import android.widget.Toast
+import android.widget.EditText
+
+
 
 
 class QuestionActivity : AppCompatActivity() {
@@ -97,27 +101,73 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     fun answeredDialog(correct: Boolean){
-        val dialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        val dBuilder = AlertDialog.Builder(context)
+        val mView = layoutInflater.inflate(R.layout.dialog_answer, null)
+        val confirmBtn = mView.findViewById(R.id.confirmBtn) as Button
+        val cancelBtn = mView.findViewById(R.id.cancelBtn) as Button
+        val resultTxt = mView.findViewById(R.id.resultTxt) as TextView
+        val tryAgainTxt = mView.findViewById(R.id.tryAgainTxt) as TextView
+
+        val alert = dBuilder.create()
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        alert.setView(mView)
         if (correct){
-            dialog.setMessage("Resposta correta :)")
-        } else {
-            dialog.setMessage("Resposta incorreta :(\nQuer tentar novamente?")
-                    .setPositiveButton("Sim", null)
-        }
+            resultTxt.text = "Resposta correta :)"
+            cancelBtn.visibility = View.GONE
+            tryAgainTxt.visibility = View.GONE
 
-        if (hasNextQuestion()){
-            dialog.setNegativeButton("Próxima pergunta") { dialog, whichButton ->
-                Toast.makeText(context, "Próxima pergunta!", Toast.LENGTH_SHORT).show()
-                loadNextQuestion()
+            if (hasNextQuestion()) {
+                confirmBtn.text = "Próxima pergunta"
+
+                confirmBtn.setOnClickListener(View.OnClickListener {
+                    loadNextQuestion()
+                    alert.dismiss()
+                })
+            } else {
+                confirmBtn.text = "Voltar ao menu"
+
+                confirmBtn.setOnClickListener({
+                    alert.dismiss()
+                    context.finish()
+                })
             }
         } else {
-            dialog.setNegativeButton("Voltar para o menu") { dialog, whichButton ->
-                context.finish()
+            resultTxt.text = "Resposta incorreta :("
+            confirmBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+            cancelBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+
+            if (hasNextQuestion()) {
+                confirmBtn.text = "Tentar novamente"
+                cancelBtn.text = "Próxima pergunta"
+
+                cancelBtn.setOnClickListener(View.OnClickListener {
+                    loadNextQuestion()
+                    alert.dismiss()
+                })
+
+                confirmBtn.setOnClickListener({
+                    alert.dismiss()
+                })
+
+            } else {
+                confirmBtn.text = "Tentar novamente"
+                cancelBtn.text = "Voltar ao menu"
+
+                cancelBtn.setOnClickListener(View.OnClickListener {
+                    alert.dismiss()
+                    context.finish()
+                })
+
+                confirmBtn.setOnClickListener({
+                    alert.dismiss()
+                })
             }
+
         }
 
-        dialog.create().show()
-
+        alert.show()
     }
 
 
