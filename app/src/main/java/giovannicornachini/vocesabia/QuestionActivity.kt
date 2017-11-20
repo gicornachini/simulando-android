@@ -15,9 +15,6 @@ import android.widget.*
 import giovannicornachini.vocesabia.Models.Question
 import android.widget.AdapterView.OnItemClickListener
 import giovannicornachini.vocesabia.Models.QuestionAlternative
-import android.widget.Toast
-import android.widget.EditText
-
 
 
 
