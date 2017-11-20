@@ -12,5 +12,12 @@ class QuestionAlternative (val id:Int, val text: String, val letter: String): Se
     val textHtmlToView: Spanned?
         get() = Html.fromHtml(this.text)
 
+    fun isCorrect(question: Question): Boolean {
+        if (this.id == question.correctChoiceId) {
+            return true
+        }
+        return false
+    }
+
 
 }

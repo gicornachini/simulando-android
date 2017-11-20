@@ -11,7 +11,8 @@ import java.io.Serializable
  */
 class Question (@SerializedName("id") val id:Int,
                 @SerializedName("text") val text: String,
-                @SerializedName("question_choices") val alternatives: List<QuestionAlternative>): Serializable {
+                @SerializedName("question_choices") val alternatives: List<QuestionAlternative>,
+                @SerializedName("correct_choice") val correctChoiceId: Int): Serializable {
 
     val textHtmlToView: Spanned?
         get() = Html.fromHtml(this.text)

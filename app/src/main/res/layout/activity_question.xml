@@ -9,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_weight="1">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,8 +21,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-            android:id="@+id/include"
-            layout="@layout/content_question" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

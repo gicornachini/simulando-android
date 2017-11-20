@@ -1,5 +1,6 @@
 package giovannicornachini.simulando
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -20,6 +21,7 @@ import android.support.design.widget.Snackbar
 class MainActivity : AppCompatActivity() {
     val QUESTION_LIST = QuestionActivity.QUESTION_LIST
 
+    var progressDialog: ProgressDialog? = null
     val simulandoAPI = SimulandoAPIHelper.api
     var startBtn:Button? = null
     var questions: ArrayList<Question> = ArrayList<Question>()
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        progressDialog = ProgressDialog.show(this, "Carregando", "Aguarde...")
 
         startBtn = findViewById(R.id.startBtn) as Button
         startBtn!!.setOnClickListener(View.OnClickListener { view ->
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun enableInit(){
+        progressDialog!!.dismiss()
         startBtn!!.isEnabled = true
         startBtn!!.visibility = android.transition.Visibility.MODE_IN
     }
