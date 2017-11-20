@@ -15,7 +15,7 @@ object SimulandoAPIHelper {
 
     interface SimulandoAPI {
 
-        @GET("/api/questions/")
+        @GET("/api/v1/questions/")
         fun questions(): Call<List<Question>>
     }
 
