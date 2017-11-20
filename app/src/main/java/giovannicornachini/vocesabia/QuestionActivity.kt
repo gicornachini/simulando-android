@@ -1,4 +1,4 @@
-package giovannicornachini.simulando
+package giovannicornachini.vocesabia
 
 import android.content.Context
 import android.graphics.Color
@@ -11,13 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import giovannicornachini.simulando.Models.Question
+import giovannicornachini.vocesabia.Models.Question
 import android.widget.AdapterView.OnItemClickListener
-import giovannicornachini.simulando.Models.QuestionAlternative
+import giovannicornachini.vocesabia.Models.QuestionAlternative
 import android.widget.Toast
-import android.content.DialogInterface
-
-
 
 
 class QuestionActivity : AppCompatActivity() {

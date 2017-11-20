@@ -1,15 +1,13 @@
-package giovannicornachini.simulando
+package giovannicornachini.vocesabia
 
 import android.app.ProgressDialog
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.content.Intent
-import android.opengl.Visibility
 import android.util.Log
-import giovannicornachini.simulando.Models.Question
+import giovannicornachini.vocesabia.Models.Question
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

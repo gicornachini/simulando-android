@@ -1,6 +1,6 @@
-package giovannicornachini.simulando
+package giovannicornachini.vocesabia
 
-import giovannicornachini.simulando.Models.Question
+import giovannicornachini.vocesabia.Models.Question
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

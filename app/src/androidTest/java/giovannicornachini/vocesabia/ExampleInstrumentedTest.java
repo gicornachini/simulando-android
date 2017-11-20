@@ -1,4 +1,4 @@
-package giovannicornachini.simulando;
+package giovannicornachini.vocesabia;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
