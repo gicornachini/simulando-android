@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         progressDialog = ProgressDialog.show(this, "Carregando", "Aguarde...")
 
         startBtn = findViewById(R.id.startBtn) as Button
-        startBtn!!.setOnClickListener(View.OnClickListener { view ->
+        startBtn!!.setOnClickListener({ view ->
             initQuestions()
         })
 

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Você Sabia?</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="correctAnswer">Resposta correta!</string>
+    <string name="wrongAnswer">Resposta incorreta!</string>
+    <string name="tryAgain">Tentar novamente?</string>
+    <string name="confirm">Sim</string>
+    <string name="cancel">Cancelar</string>
 </resources>
