@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="@string/wrongAnswer"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -27,31 +27,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/confirmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
             android:background="@drawable/round_shape"
             android:backgroundTint="@color/correctAlternative"
             android:text="@string/confirm"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/cancelBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="25dp"
             android:layout_weight="1"
             android:background="@drawable/round_shape"
             android:backgroundTint="@color/wrongAlternative"
             android:text="@string/cancel"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
     </LinearLayout>
 
 </LinearLayout>

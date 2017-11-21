@@ -132,8 +132,6 @@ class QuestionActivity : AppCompatActivity() {
             }
         } else {
             resultTxt.text = "Resposta incorreta :("
-            confirmBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-            cancelBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
 
             if (hasNextQuestion()) {
                 confirmBtn.text = "Tentar novamente"
