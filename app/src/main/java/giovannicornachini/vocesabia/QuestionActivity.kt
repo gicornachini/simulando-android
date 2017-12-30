@@ -118,7 +118,7 @@ class QuestionActivity : AppCompatActivity() {
             if (hasNextQuestion()) {
                 confirmBtn.text = "Próxima pergunta"
 
-                confirmBtn.setOnClickListener(View.OnClickListener {
+                confirmBtn.setOnClickListener({
                     loadNextQuestion()
                     alert.dismiss()
                 })
@@ -137,7 +137,7 @@ class QuestionActivity : AppCompatActivity() {
                 confirmBtn.text = "Tentar novamente"
                 cancelBtn.text = "Próxima pergunta"
 
-                cancelBtn.setOnClickListener(View.OnClickListener {
+                cancelBtn.setOnClickListener({
                     loadNextQuestion()
                     alert.dismiss()
                 })
@@ -150,7 +150,7 @@ class QuestionActivity : AppCompatActivity() {
                 confirmBtn.text = "Tentar novamente"
                 cancelBtn.text = "Voltar ao menu"
 
-                cancelBtn.setOnClickListener(View.OnClickListener {
+                cancelBtn.setOnClickListener({
                     alert.dismiss()
                     context.finish()
                 })
@@ -275,20 +275,21 @@ class QuestionActivity : AppCompatActivity() {
 
         fun setOnClick() {
             this.alternativeBtn.setOnClickListener(object: View.OnClickListener {
-                override fun onClick(view: View): Unit {
-                    var context = mContext as QuestionActivity
+                override fun onClick(view: View) {
+                    val context = mContext as QuestionActivity
+                    val isCorrect = alternative.isCorrect(question)
 
                     if (alternative.isCorrect(question)) {
                         Log.d("ListQuestionAlternative", "Correct Choice")
                         view.setBackgroundResource(R.color.correctAlternative)
+                        alternativeBtn.setTextColor(Color.WHITE)
                     } else {
                         Log.d("ListQuestionAlternative", "Wrong Choice")
-                        view.setBackgroundResource(R.color.wrongAlternative)
+                        view.isEnabled = false
                     }
 
-                    context.answeredDialog(alternative.isCorrect(question))
+                    context.answeredDialog(isCorrect)
 
-                    alternativeBtn.setTextColor(Color.WHITE)
                 }
             })
         }

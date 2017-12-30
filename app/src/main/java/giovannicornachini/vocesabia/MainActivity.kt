@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         progressDialog = ProgressDialog.show(this, "Carregando", "Aguarde...")
 
         startBtn = findViewById(R.id.startBtn) as Button
-        startBtn!!.setOnClickListener({ view ->
+        startBtn!!.setOnClickListener({
             initQuestions()
         })
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     fun enableInit(){
         progressDialog!!.dismiss()
         startBtn!!.isEnabled = true
-        startBtn!!.visibility = android.transition.Visibility.MODE_IN
+        startBtn!!.visibility = View.VISIBLE
     }
 
     fun initQuestions(){
