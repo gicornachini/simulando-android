@@ -114,72 +114,57 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     fun answeredDialog(correct: Boolean){
-        val dBuilder = AlertDialog.Builder(context)
-        val mView = layoutInflater.inflate(R.layout.custom_dialog, null)
-        val confirmBtn = mView.findViewById(R.id.confirmBtn) as Button
-        val cancelBtn = mView.findViewById(R.id.cancelBtn) as Button
-        val resultTxt = mView.findViewById(R.id.titleTxt) as TextView
-        val tryAgainTxt = mView.findViewById(R.id.messageTxt) as TextView
+      var alert: CustomDialog? = null
 
-        val alert = dBuilder.create()
-        alert.setCancelable(false)
-        alert.setCanceledOnTouchOutside(false)
-
-        alert.setView(mView)
         if (correct){
-            resultTxt.text = "Resposta correta :)"
-            cancelBtn.visibility = View.GONE
-            tryAgainTxt.visibility = View.GONE
+            alert = CustomDialog(context,
+                    "Resposta correta :)",
+                    getString(R.string.thanks_message))
+            alert.showCancelBtn(false)
 
             if (hasNextQuestion()) {
-                confirmBtn.text = "Próxima pergunta"
-
-                confirmBtn.setOnClickListener({
+                alert.setConfirmButton("Próxima pergunta", View.OnClickListener {
                     loadNextQuestion()
-                    alert.dismiss()
+                    alert!!.dismiss()
                 })
             } else {
-                confirmBtn.text = "Liberar mais perguntas"
-
-                confirmBtn.setOnClickListener({
-                    alert.dismiss()
+                alert.setConfirmButton("Liberar mais perguntas", View.OnClickListener {
+                    alert!!.dismiss()
                     context.finish()
                     launchCollectLeadActivity()
                 })
             }
         } else {
-            resultTxt.text = "Resposta incorreta :("
+            alert = CustomDialog(context,
+                    getString(R.string.wrongAnswer),
+                    getString(R.string.tryAgain))
 
             if (hasNextQuestion()) {
-                confirmBtn.text = "Tentar novamente"
-                cancelBtn.text = "Próxima pergunta"
-
-                cancelBtn.setOnClickListener({
-                    loadNextQuestion()
-                    alert.dismiss()
+                alert.setConfirmButton("Tentar novamente", View.OnClickListener {
+                    alert!!.dismiss()
                 })
 
-                confirmBtn.setOnClickListener({
-                    alert.dismiss()
+                alert.setCancelButton("Próxima pergunta", View.OnClickListener {
+                    loadNextQuestion()
+                    alert!!.dismiss()
                 })
 
             } else {
-                confirmBtn.text = "Tentar novamente"
-                cancelBtn.text = "Voltar ao menu"
-
-                cancelBtn.setOnClickListener({
-                    alert.dismiss()
-                    context.finish()
+                alert.setConfirmButton("Tentar novamente", View.OnClickListener {
+                    alert!!.dismiss()
                 })
 
-                confirmBtn.setOnClickListener({
-                    alert.dismiss()
+                alert.setCancelButton("Voltar ao menu", View.OnClickListener {
+                    alert!!.dismiss()
+                    context.finish()
                 })
             }
 
         }
 
-        alert.show()
+        alert!!.setCancelable(false)
+        alert!!.setCanceledOnTouchOutside(false)
+        alert!!.show()
     }
 
     // List
