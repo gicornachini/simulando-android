@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">Você Sabia?</string>
     <string name="title_activity_question">QuestionActivity</string>
-    <string name="correctAnswer">Resposta correta!</string>
     <string name="wrongAnswer">Resposta incorreta!</string>
     <string name="tryAgain">Tentar novamente?</string>
     <string name="confirm">Sim</string>
     <string name="cancel">Cancelar</string>
+    <string name="title_activity_collect_lead">Liberar mais perguntas</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="collect_lead">Liberar mais perguntas</string>
+    <string name="leadCaptureMessage">Libere mais perguntas!</string>
+    <string name="error_timeout">Tente mais tarde</string>
+    <string name="message_ok">Ok</string>
+    <string name="thanks_message">Muito obrigado :)</string>
+    <string name="collect_lead_dialog_title">Em breve iremos disponibilizar mais perguntas</string>
 </resources>

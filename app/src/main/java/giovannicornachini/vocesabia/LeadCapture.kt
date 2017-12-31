@@ -3,34 +3,32 @@ package giovannicornachini.vocesabia
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
-import android.content.pm.PackageManager
-
 import android.app.Activity
-import android.app.LoaderManager.LoaderCallbacks
-import android.content.CursorLoader
-import android.content.Loader
-import android.database.Cursor
-import android.net.Uri
+import android.app.AlertDialog
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract
+import android.support.design.widget.Snackbar
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
-
-import java.util.ArrayList
-import android.Manifest.permission.READ_CONTACTS
-
+import android.widget.Toast
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_lead.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.net.SocketTimeoutException
 
 /**
- * A collect lead screen.
+ * A lead capture screen.
  */
-class CaptureLead : Activity() {
+class LeadCapture : Activity() {
     private var mAuthTask: LeadCaptureTask? = null
+    private val LOG_TAG = "LeadCapture"
+    val simulandoAPI = SimulandoAPIHelper.api
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +52,7 @@ class CaptureLead : Activity() {
             email.error = getString(R.string.error_field_required)
             focusView = email
             cancel = true
-        } else if (!isEmailValid(emailStr)) {
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             email.error = getString(R.string.error_invalid_email)
             focusView = email
             cancel = true
@@ -69,13 +67,17 @@ class CaptureLead : Activity() {
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        return email.contains("@")
-    }
-
-    private fun isPasswordValid(password: String): Boolean {
-        //TODO: Replace this with your own logic
-        return password.length > 4
+    private fun showAlertWithTwoButton() {
+        val alert = CustomDialog(this,
+                                 getString(R.string.collect_lead_dialog_title),
+                                 getString(R.string.thanks_message))
+        alert.showCancelBtn(false)
+        alert.setConfirmButton(getString(R.string.message_ok),
+                View.OnClickListener {
+                    alert.dismiss()
+                    this.finish()
+                })
+        alert.show()
     }
 
     /**
@@ -117,21 +119,19 @@ class CaptureLead : Activity() {
     }
 
     /**
-     * Represents an asynchronous capture lead.
+     * Represents an asynchronous lead capture.
      */
     inner class LeadCaptureTask internal constructor(private val mEmail: String) : AsyncTask<Void, Void, Boolean>() {
 
         override fun doInBackground(vararg params: Void): Boolean? {
-            // TODO: implement lead capture
-
+            var success = false
             try {
-                // Simulate network access.
-                Thread.sleep(2000)
-            } catch (e: InterruptedException) {
-                return false
+                success = leadCapture(mEmail)
+            } catch (e: SocketTimeoutException) {
+                return success
             }
 
-            return true
+            return success
         }
 
         override fun onPostExecute(success: Boolean?) {
@@ -139,9 +139,12 @@ class CaptureLead : Activity() {
             showProgress(false)
 
             if (success!!) {
-                finish()
+                showAlertWithTwoButton()
             } else {
-                email.error = getString(R.string.error_invalid_email)
+                Snackbar.make(findViewById(R.id.lead_capture_form), getString(R.string.error_timeout),
+                        Snackbar.LENGTH_LONG)
+                        .setAction("Action", null)
+                        .show()
                 email.requestFocus()
             }
         }
@@ -149,6 +152,22 @@ class CaptureLead : Activity() {
         override fun onCancelled() {
             mAuthTask = null
             showProgress(false)
+        }
+
+        fun leadCapture(email: String): Boolean {
+            val call = simulandoAPI.leadCapture(email)
+
+            var response = call.execute()
+            if (response.isSuccessful){
+                Log.d(LOG_TAG, "Lead Captured")
+                return true
+            }
+
+            Snackbar.make(findViewById(R.id.startBtn), getString(R.string.error_timeout),
+                    Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
+            return false
         }
     }
 }

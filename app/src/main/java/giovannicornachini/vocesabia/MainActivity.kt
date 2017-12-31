@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     val simulandoAPI = SimulandoAPIHelper.api
     var startBtn:Button? = null
-    var questions: ArrayList<Question> = ArrayList<Question>()
+    var questions: ArrayList<Question> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +38,14 @@ class MainActivity : AppCompatActivity() {
         getAllQuestions()
     }
 
-    fun enableInit(){
+    fun enableInit() {
         progressDialog!!.dismiss()
         startBtn!!.isEnabled = true
         startBtn!!.visibility = View.VISIBLE
     }
 
-    fun initQuestions(){
-        """ Init QuestionActivity with questions. """
+    fun initQuestions() {
+        // Init QuestionActivity with questions.
         Log.d("Init Question Activity", questions.toString())
 
         val intent = Intent(this, QuestionActivity::class.java)
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // REST Call
-    fun getAllQuestions(){
+    fun getAllQuestions() {
         // Create a call instance for looking up Retrofit contributors.
         val call = simulandoAPI.questions()
 
@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<List<Question>>?, t: Throwable?) {
                 if (t != null) {
                     Log.d("Error", t.message)
-                    Snackbar.make(findViewById(R.id.startBtn), t.message!!,
+                    progressDialog!!.dismiss()
+                    Snackbar.make(findViewById(R.id.startBtn), getString(R.string.error_timeout),
                             Snackbar.LENGTH_LONG)
                             .setAction("Action", null)
                             .show()

@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,21 @@ import android.widget.*
 import giovannicornachini.vocesabia.Models.Question
 import android.widget.AdapterView.OnItemClickListener
 import giovannicornachini.vocesabia.Models.QuestionAlternative
+import android.content.Intent
 
 
 
+
+/**
+ * An Activity of *Questions*.
+ *
+ * This class manage a collection of questions, collect answers and show results.
+ *
+ * @param QUESTION_LIST required a collection of questions referenced by QUESTION_LIST.
+ */
 class QuestionActivity : AppCompatActivity() {
     val simulandoAPI = SimulandoAPIHelper.api
+    private val LOG_TAG = "QuestionActivity"
     var questions: ArrayList<Question>? = null
     private val context = this
 
@@ -69,10 +78,10 @@ class QuestionActivity : AppCompatActivity() {
 
             var alternative = cell
             if (alternative.isCorrect(question)) {
-                Log.d("QuestionActivity", "Correct Choice")
+                Log.d(LOG_TAG, "Correct Choice")
                 view.setBackgroundResource(R.color.correctAlternative)
             } else {
-                Log.d("QuestionActivity", "Wrong Choice")
+                Log.d(LOG_TAG, "Wrong Choice")
                 view.setBackgroundResource(R.color.wrongAlternative)
             }
 
@@ -97,13 +106,20 @@ class QuestionActivity : AppCompatActivity() {
         return false
     }
 
+    private fun launchCollectLeadActivity() {
+        Log.d(LOG_TAG, "Launch LeadCapture")
+
+        val intent = Intent(this, LeadCapture::class.java)
+        startActivity(intent)
+    }
+
     fun answeredDialog(correct: Boolean){
         val dBuilder = AlertDialog.Builder(context)
-        val mView = layoutInflater.inflate(R.layout.dialog_answer, null)
+        val mView = layoutInflater.inflate(R.layout.custom_dialog, null)
         val confirmBtn = mView.findViewById(R.id.confirmBtn) as Button
         val cancelBtn = mView.findViewById(R.id.cancelBtn) as Button
-        val resultTxt = mView.findViewById(R.id.resultTxt) as TextView
-        val tryAgainTxt = mView.findViewById(R.id.tryAgainTxt) as TextView
+        val resultTxt = mView.findViewById(R.id.titleTxt) as TextView
+        val tryAgainTxt = mView.findViewById(R.id.messageTxt) as TextView
 
         val alert = dBuilder.create()
         alert.setCancelable(false)
@@ -123,11 +139,12 @@ class QuestionActivity : AppCompatActivity() {
                     alert.dismiss()
                 })
             } else {
-                confirmBtn.text = "Voltar ao menu"
+                confirmBtn.text = "Liberar mais perguntas"
 
                 confirmBtn.setOnClickListener({
                     alert.dismiss()
                     context.finish()
+                    launchCollectLeadActivity()
                 })
             }
         } else {
@@ -164,7 +181,6 @@ class QuestionActivity : AppCompatActivity() {
 
         alert.show()
     }
-
 
     // List
     private class ListQuestionAdapter(context: Context,
@@ -257,6 +273,7 @@ class QuestionActivity : AppCompatActivity() {
         val alternative: QuestionAlternative
         val question: Question
         private val mContext: Context = context
+        private val LOG_TAG = "ListQuestionAlternative"
 
         init {
             this.alternativeBtn = row?.findViewById(R.id.alternativeBtn) as Button
@@ -280,11 +297,11 @@ class QuestionActivity : AppCompatActivity() {
                     val isCorrect = alternative.isCorrect(question)
 
                     if (alternative.isCorrect(question)) {
-                        Log.d("ListQuestionAlternative", "Correct Choice")
+                        Log.d(LOG_TAG, "Correct Choice")
                         view.setBackgroundResource(R.color.correctAlternative)
                         alternativeBtn.setTextColor(Color.WHITE)
                     } else {
-                        Log.d("ListQuestionAlternative", "Wrong Choice")
+                        Log.d(LOG_TAG, "Wrong Choice")
                         view.isEnabled = false
                     }
 
